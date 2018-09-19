@@ -17,6 +17,13 @@ final class ViewController: UIViewController, ARSCNViewDelegate, UIGestureRecogn
 
     @IBOutlet var sceneView: ARSCNView!
     var planes: [Plane] = []
+
+    lazy var anotationView: UIView = {
+        let view = UIView(frame: self.view.frame)
+        view.backgroundColor = .gray
+        view.alpha = 0.7
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +42,27 @@ final class ViewController: UIViewController, ARSCNViewDelegate, UIGestureRecogn
         #if DEBUG
         sceneView.debugOptions = [.showWorldOrigin, .showFeaturePoints]
         #endif
+
+        view.addSubview(anotationView)
+        anotationView.layer.position.y += anotationView.frame.height
+
+        let button = UIButton(frame: CGRect(x: 10, y: 10, width: 50, height: 50))
+        button.setTitle("debug", for: .normal)
+        button.addTarget(self, action: #selector(debug), for: .touchUpInside)
+        view.addSubview(button)
+
+
+    }
+
+    @objc func debug() {
+        UIView.animate(withDuration: 0.3) {
+            if self.anotationView.layer.position == self.view.layer.position {
+                self.anotationView.layer.position.y += self.anotationView.frame.height
+            }
+            else {
+                self.anotationView.layer.position.y -= self.anotationView.frame.height
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
