@@ -63,6 +63,9 @@ final class ViewController: UIViewController, ARSCNViewDelegate, UIGestureRecogn
                 self.anotationView.layer.position.y -= self.anotationView.frame.height
             }
         }
+
+        let vc = DebugViewController()
+        present(vc, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
